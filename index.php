@@ -15,22 +15,49 @@
 
 <body>
     <?php
+    $host = "localhost";
+    $user = "root";
+    $password = "";
+    $dbname = "cabardo_db";
 
-    $name = "Rendyll Ryan Cabardo";
-    $num1 = 16.6;
-    $num2 = 5;
+    //data source name
+    $db = "mysql:host=$host;dbname=$dbname";
 
-    $sum = $num1 + $num2;
-    $difference = $num1 - $num2;
-    $product = $num1 * $num2;
-    $quotient = $num1 / $num2;
+    $connection = new PDO($db, $user, $password);
 
-    echo "<center> <br>$name <br> <br> <br>";
-    echo "The sum of the two numbers is $sum <br>";
-    echo "The difference between the two numbers is $difference <br>";
-    echo "The product between the two numbers is $product <br>";
-    echo "The quotient between the two numbers is $quotient <br>";
-    echo "The square root of the 1st number is " . sqrt($num1);
+    $statement = $connection->query('SELECT * FROM sample_data');
+
+    // while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+//     echo $row['first_name'] . " " . $row['last_name'] . "<br>";
+// }
+    
+    // while($row = $statement->fetch(PDO::FETCH_OBJ)){
+//     echo $row->first_name. " ". $row->last_name. "<br>";
+// }
+    
+
+    // $stmt = $connection->prepare('SELECT * FROM sample_data');
+// $stmt->execute();
+    
+
+    // $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    // echo '<pre>'; // Optional: to format the output
+// print_r($results);
+// echo '</pre>';
+    
+
+    $gender = "Male";
+
+    //Positional Parameters
+    $sql = "SELECT * FROM sample_data WHERE gender = ?";
+    $stmnt = $connection->prepare($sql);
+    $stmnt->execute([$gender]);
+    $users = $stmnt->fetchAll();
+
+    foreach ($users as $user) {
+        echo $user['first_name'] . " " . $user['last_name'] . " " . $user['gender'] . "<br>";
+    }
 
     ?>
 </body>
