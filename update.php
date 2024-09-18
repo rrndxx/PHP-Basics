@@ -15,7 +15,7 @@
     $age = 18;
     $gender = "Female";
 
-//CREATE NEW DATA
+//UPDATES THE DATA
     $sql = "UPDATE students_table SET firstname = ?, lastname = ?, age = ?, gender = ? WHERE ID = ?";
     $stmnt = $connection->prepare($sql);
     $stmnt->execute([$fname, $lname, $age, $gender, $id]);
