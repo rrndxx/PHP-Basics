@@ -33,10 +33,10 @@
     $age = $_POST["age"];
     $gender = $_POST["gender"];
 
-    $fname = "Rendyll";
-    $lname = "Cabardo";
-    $age = 20;
-    $gender = "Male";
+    // $fname = "Rendyll";
+    // $lname = "Cabardo";
+    // $age = 20;
+    // $gender = "Male";
 
 //CREATE NEW DATA
     $sql = "INSERT INTO students_table(`firstname`, `lastname`, `age`, `gender`) VALUES(?, ?, ?, ?)";
