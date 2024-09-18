@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -13,19 +13,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap" rel="stylesheet">
 </head>
 
-<body>
-    <?php
+<body> -->
+<?php
     $host = "localhost";
     $user = "root";
     $password = "";
-    $dbname = "cabardo_db";
+    $dbname = "sampledatabase";
 
     //data source name
     $db = "mysql:host=$host;dbname=$dbname";
 
     $connection = new PDO($db, $user, $password);
 
-    $statement = $connection->query('SELECT * FROM sample_data');
+    $statement = $connection->query('SELECT * FROM mock_data');
 
     // while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
 //     echo $row['first_name'] . " " . $row['last_name'] . "<br>";
@@ -50,7 +50,7 @@
     $gender = "Male";
 
     //Positional Parameters
-    $sql = "SELECT * FROM sample_data WHERE gender = ?";
+    $sql = "SELECT * FROM mock_data WHERE gender = ?";
     $stmnt = $connection->prepare($sql);
     $stmnt->execute([$gender]);
     $users = $stmnt->fetchAll();
@@ -60,6 +60,3 @@
     }
 
     ?>
-</body>
-
-</html>
