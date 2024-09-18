@@ -33,7 +33,15 @@
     $age = 20;
     $gender = "Male";
 
+//CREATE NEW DATA
     $sql = "INSERT INTO students_table(`firstname`, `lastname`, `age`, `gender`) VALUES(?, ?, ?, ?)";
     $stmnt = $connection->prepare($sql);
     $stmnt->execute([$fname, $lname, $age, $gender]);
+
+//SELECT ALL DATA
+    $stmnt = $connection->query("SELECT * FROM students_table");
+    
+    while($row = $stmnt->fetch()){
+        echo $row['ID']. "  ".$row['firstname']. "  ".$row['lastname']. "  ".$row['age']. "  ".$row['gender']. "<br>";
+    }
 ?>
