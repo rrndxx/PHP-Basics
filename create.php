@@ -28,6 +28,11 @@
     $connection = new PDO($db,$user,$pass);
     $connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC);
 
+    $fname = $_POST["firstname"];
+    $lname = $_POST["lastname"];
+    $age = $_POST["age"];
+    $gender = $_POST["gender"];
+
     $fname = "Rendyll";
     $lname = "Cabardo";
     $age = 20;
