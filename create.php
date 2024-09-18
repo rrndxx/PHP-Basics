@@ -28,6 +28,12 @@
     $connection = new PDO($db,$user,$pass);
     $connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC);
 
-    
+    $fname = "Rendyll";
+    $lname = "Cabardo";
+    $age = 20;
+    $gender = "Male";
 
+    $sql = "INSERT INTO students_table(`firstname`, `lastname`, `age`, `gender`) VALUES(?, ?, ?, ?)";
+    $stmnt = $connection->prepare($sql);
+    $stmnt->execute([$fname, $lname, $age, $gender]);
 ?>
