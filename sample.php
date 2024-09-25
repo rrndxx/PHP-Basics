@@ -1,3 +1,7 @@
+<?php
+require_once('connection.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,58 +13,57 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
 </head>
+<style>
+    body {
+        padding: 30px;
+    }
+</style>
 
 <body>
-    <?php
-    $host = "localhost";
-    $user = "root";
-    $pass = "";
-    $dbname = "sampledatabase";
-
-    $db = "mysql:host=$host;dbname=$dbname";
-
-    $connection = new PDO($db, $user, $pass);
-    $connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-    ?>
     <div class="container-fluid">
-        <div class="row g-3 mb-3">
-            <div class="col">
-                <label for="firstname" class="form-label">First Name</label>
-                <input type="firstname" class="form-control" id="inputfirstname">
+        <form method="POST" action="add.php">
+            <div class="row g-3 mb-3">
+                <div class="col">
+                    <label for="inputfirstname" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="inputfirstname" name="firstname" required>
+                </div>
+                <div class="col">
+                    <label for="inputlastname" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="inputlastname" name="lastname" required>
+                </div>
+                <div class="col">
+                    <label for="inputemail" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="inputemail" name="email" required>
+                </div>
+            </div>
+            <div class="row g-3 mb-4">
+                <div class="col">
+                    <label for="inputState" class="form-label">Gender</label>
+                    <select id="inputState" class="form-select" name="gender" required>
+                        <option selected disabled>Choose...</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Dog</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="inputbirthdate" class="form-label">Birthdate</label>
+                    <input type="date" class="form-control" id="inputbirthdate" name="birthdate" required>
+                </div>
+                <div class="col">
+                    <label for="inputaddress" class="form-label">Address</label>
+                    <input type="text" class="form-control" id="inputaddress" name="address" required>
+                </div>
             </div>
             <div class="col">
-                <label for="lastname" class="form-label">Last Name</label>
-                <input type="lastname" class="form-control" id="inputlastname">
+                <button type="submit" class="btn btn-primary mb-4 mt-1" style="float:right">Add</button>
             </div>
-            <div class="col">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="inputemail">
-            </div>
-        </div>
-        <div class="row g-3 mb-4">
-            <div class="col">
-                <label for="inputState" class="form-label">Gender</label>
-                <select id="inputState" class="form-select">
-                    <option selected>Choose...</option>
-                    <option>Male</option>
-                    <option>Female</option>
-                    <option>Dog</option>
-                </select>
-            </div>
-            <div class="col">
-                <label for="birthdate" class="form-label">Birthdate</label>
-                <input type="date" class="form-control" id="inputbirthdate">
-            </div>
-            <div class="col">
-                <label for="address" class="form-label">Address</label>
-                <input type="address" class="form-control" id="inputaddress">
-            </div>
-        </div>
-        <div class="col ms-auto">
-            <button type="submit" class="btn btn-primary">Add</button>
-        </div>
+        </form>
     </div>
+
     <br><br>
+
     <div class="container-fluid">
         <table class="table table-dark table-hover">
             <thead>
@@ -77,22 +80,30 @@
             </thead>
             <tbody>
                 <?php
-                $stmnt = $connection->query("SELECT * FROM students_table");
-                while ($row = $stmnt->fetch()) {
-                    echo "
-                    <tr>
-                    <td>" . $row["id"] . "</td>
-                    <td>" . $row["first_name"] . "</td>
-                    <td>" . $row["last_name"] . "</td>
-                    <td>" . $row["email"] . "</td>
-                    <td>" . $row["gender"] . "</td>
-                    <td>" . $row["birthdate"] . "</td>
-                    <td>" . $row["address"] . "</td>
-                    <td>
-                        <button type=\"button\" class=\"btn btn-warning\">Edit</button>
-                        <button type=\"button\" class=\"btn btn-danger\">Remove</button>
-                    </td>
-                    </tr>";
+                $connection = $newConnection->openConnection(); // Get connection
+                $stmnt = $connection->prepare("SELECT * FROM students_table"); // Prepare statement
+                $stmnt->execute(); // Execute query
+                $result = $stmnt->fetchAll(); // Fetch results of the query
+
+                // If true, loop the results
+                if ($result) {
+                    foreach ($result as $row) {
+                ?>
+                        <tr>
+                            <td><?php echo $row->id; ?></td>
+                            <td><?php echo $row->first_name; ?></td>
+                            <td><?php echo $row->last_name; ?></td>
+                            <td><?php echo $row->email; ?></td>
+                            <td><?php echo $row->gender; ?></td>
+                            <td><?php echo $row->birthdate; ?></td>
+                            <td><?php echo $row->address; ?></td>
+                            <td>
+                                <button type="button" class="btn btn-warning">Edit</button>
+                                <button type="button" class="btn btn-danger">Delete</button>
+                            </td>
+                        </tr>
+                <?php
+                    }
                 }
                 ?>
             </tbody>
